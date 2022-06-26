@@ -2,10 +2,10 @@
 
 <br />
 <div align="center">
-  <h3 align="center">Event platform</h3>
+  <h3 align="center">Spacetraveling</h3>
 
   <p align="center">
-    An plataform to videos and lessons!
+    An plataform to share posts!
     <br />
     <a href="https://github.com/brunomestanza/ignite-react"><strong>Explore all projects »</strong></a>
   </p>
@@ -26,20 +26,18 @@
 
 ## About The Project
 <div align="center">
-  <img src="assets/project-screenshot.png" alt="Event Platform Screen Shot" width="200"/>
+  <img src="assets/project-screenshot.png" alt="Spacetraveling Screen Shot" width="200"/>
 </div>
 <br/>
-<p align="center">A simple app for learn about React<p>
+<p align="center">A simple app for load posts<p>
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Built With
 
 * [TypeScript](https://www.typescriptlang.org/)
 * [React.js](https://reactjs.org/)
-* [Apollo Client](https://www.apollographql.com/docs/react/)
-* [Vime JS](https://vimejs.com/)
-* [Graph QL](https://graphql.org/)
-* [TailWind](https://tailwindcss.com/)
+* [Next JS](https://nextjs.org/)
+* [Prismic](https://prismic.io/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -49,7 +47,7 @@ To get a local copy up and running follow these simple example steps.
 
 ```
 $ git clone https://github.com/brunomestanza/ignite-react
-$ cd ignite-react/event-platform
-$ npm install
-$ npm run dev
+$ cd ignite-react/spacetraveling
+$ yarn install
+$ yarn next dev
 ```

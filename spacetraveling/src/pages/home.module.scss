@@ -1,0 +1,49 @@
+.container {
+  margin: 0 auto;
+  max-width: 1080px;
+  padding: 0 2rem;
+}
+
+.post {
+  margin-top: 3rem;
+  a {
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: var(--gray-100);
+    font-size: 1.125rem;
+    margin-bottom: 1.5rem;
+  }
+  div {
+    display: flex;
+    align-items: center;
+
+    time {
+      color: var(--gray-100);
+      font-size: 0.875rem;
+      margin-right: 1.5rem;
+    }
+
+    span {
+      color: var(--gray-100);
+      font-size: 0.875rem;
+    }
+  }
+}
+
+.icon {
+  margin-right: 0.5rem;
+}
+
+.nextPage {
+  background-color: transparent;
+  border: none;
+  color: var(--pink);
+  font-weight: 600;
+  font-size: 1.125rem;
+  margin-top: 4rem;
+  padding: 0;
+}
