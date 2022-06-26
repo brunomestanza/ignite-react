@@ -1,0 +1,8 @@
+# A requisição abaixo faz um post, através da Mutation, e ainda retorna o id do usuário sem necessidade de outra requisição
+# Deve haver um set de permissão para que a resquest seja feita dessa forma, se não pode dar erro, necessária permissão de Read on Staged
+
+mutation CreateSubscriber ($name: String!, $email: String!) {
+  createSubscriber(data: {name: $name, email: $email}) {
+    id
+  }
+}

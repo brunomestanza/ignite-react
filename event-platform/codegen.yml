@@ -1,0 +1,21 @@
+# API utilizada com o GraphQl
+schema: https://api-sa-east-1.graphcms.com/v2/cl4t5jykl2zl701yw9d6udam2/master
+
+# Pasta aonde ficam as queries e mutations
+documents: './src/graphql/**/*.graphql'
+
+# Local aonde são gerados automaticamente os arquivos
+generates:
+  ./src/graphql/generated.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      reactApolloVersion: 3
+      # Cria automaticamente hooks para cada queue ou mutation
+      withHooks: true
+      # Padrão antigo não mais utilizado com React
+      withHOC: false
+      # Padrão de criação de componentes, não utilizado também
+      withComponent: false

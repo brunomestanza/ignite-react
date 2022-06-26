@@ -1,0 +1,10 @@
+query GetLessons {
+  # Pega as querys de forma crescente através do available at, da que vai sair primeiro pra que vai sair depois
+  lessons(orderBy: availableAt_ASC, stage: PUBLISHED) {
+    id
+    lessonType
+    availableAt
+    title
+    slug
+  }
+}
