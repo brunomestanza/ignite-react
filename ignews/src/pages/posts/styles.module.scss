@@ -1,0 +1,45 @@
+.container {
+  margin: 0 auto;
+  max-width: 1120px;
+  padding: 2 rem;
+}
+
+.postList {
+  margin: 5rem auto;
+  max-width: 720px;
+
+  a {
+    display: block;
+
+    & + a { // Usamos para estilizar qualquer post que tenha outro post antes dele, ou seja, qualquer post que não seja o primeiro
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--gray-700);
+    }
+
+    time {
+      align-items: center;
+      color: var(--gray-300);
+      display: flex;
+      font-size: 1rem;
+    }
+
+    strong {
+      display: block;
+      font-size:  1.5rem;
+      line-height: 2rem;
+      margin-top: 1rem;
+      transition: color 0.2s;
+    }
+
+    p {
+      color: var(--gray-300);
+      line-height: 1.625rem;
+      margin-top: 0.5rem;
+    }
+
+    &:hover strong {
+      color: var(--yellow-500);
+    }
+  }
+}
