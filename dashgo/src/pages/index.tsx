@@ -1,7 +1,28 @@
 import { Button, Flex, Stack } from "@chakra-ui/react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Input } from "../components/Form/Input";
 
+type SignInFormData = {
+  email: string;
+  password: string;
+};
+
+const signInFormSchema = yup.object({
+  email: yup.string().required('E-mail obrigatório').email('E-mail inválido'),
+  password: yup.string().required('Senha obrigatória'),
+});
+
 export default function SignIn() {
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
+    resolver: yupResolver(signInFormSchema)
+  });
+
+  const handleSignIn: SubmitHandler<SignInFormData> = (values) => {
+    console.log(values)
+  }
+
   return (
     <Flex w="100vw" h="100vh" alignItems="center" justify="center">
       <Flex
@@ -12,18 +33,30 @@ export default function SignIn() {
         maxW={360}
         p="8"
         w="100%"
+        onSubmit={handleSubmit(handleSignIn)}
       >
-        {/* O stack é uma caixa que recebe conteúdos filhos dentro de si, e que consegue dar um espaçamento nesses conteúdos, que passamos pra ele no spacing */}
         <Stack spacing={4}>
-          {/* O FormControl e responsável por receber o input e o seu label */}
-          <Input name="email" type="email" label="E-mail" />
-          <Input name="password" type="password" label="Senha" />
+          <Input
+            error={errors.email}
+            name="email"
+            type="email"
+            label="E-mail"
+            {...register("email")}
+          />
+          <Input
+            error={errors.password}
+            name="password"
+            type="password"
+            label="Senha"
+            {...register('password')}
+          />
         </Stack>
         <Button
           colorScheme="pink"
           mt={6}
           type="submit"
           size="lg"
+          isLoading={isSubmitting}
         >
           Entrar
         </Button>
