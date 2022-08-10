@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { api } from '../services/api';
+import { memo } from 'react';
+import { MovieProps } from '../@types/Movie';
 import { MovieCard } from './MovieCard';
 
 interface GenreResponseProps {
@@ -8,31 +8,12 @@ interface GenreResponseProps {
   title: string;
 }
 
-interface MovieProps {
-  imdbID: string;
-  Title: string;
-  Poster: string;
-  Ratings: Array<{
-    Source: string;
-    Value: string;
-  }>;
-  Runtime: string;
-}
-
 interface ContentProps {
-  selectedGenreId: number;
+  movies: MovieProps[];
   selectedGenre: GenreResponseProps;
 }
 
-export function Content({ selectedGenreId, selectedGenre }: ContentProps) {
-  const [movies, setMovies] = useState<MovieProps[]>([]);
-
-  useEffect(() => {
-    api.get<MovieProps[]>(`movies/?Genre_id=${selectedGenreId}`).then(response => {
-      setMovies(response.data);
-    });
-  }, [selectedGenreId]);
-  
+export function ContentComponent({ movies, selectedGenre }: ContentProps) {
   return (
     <div className="container">
       <header>
@@ -48,3 +29,7 @@ export function Content({ selectedGenreId, selectedGenre }: ContentProps) {
     </div>
   )
 }
+
+export const Content = memo(ContentComponent, (prevProps, nextProps) => {
+  return Object.is(prevProps.selectedGenre, nextProps.selectedGenre);
+});
