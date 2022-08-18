@@ -3,10 +3,11 @@ import { Button } from "@chakra-ui/react";
 interface PaginationItemProps {
   number: number;
   isCurrent?: boolean;
+  onPageChange: (page: number) => void;
 }
 
 // isCurrent recebe o valor de false, porque pode não ter esse valor vindo do props. Mesmo o código funcionando sem a declaração é legal colocar. 
-export function PaginationItem({ number, isCurrent = false }: PaginationItemProps) {
+export function PaginationItem({ number, isCurrent = false, onPageChange }: PaginationItemProps) {
   if (isCurrent) {
     return (
       <Button
@@ -30,6 +31,7 @@ export function PaginationItem({ number, isCurrent = false }: PaginationItemProp
       fontSize="xs"
       size="sm"
       width="4"
+      onClick={() => onPageChange(number)}
       _hover={{
         bg: "gray.500",
       }}

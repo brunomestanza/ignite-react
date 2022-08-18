@@ -24,6 +24,8 @@ describe('Header Component', () => {
     render(
       <Header />
     );
+    screen.logTestingPlaygroundURL();
+
     // Maneira simples de procurar por algo dentro da renderização de por exemplo um componente
     expect(screen.getByText('Home')).toBeInTheDocument();
     expect(screen.getByText('Posts')).toBeInTheDocument();

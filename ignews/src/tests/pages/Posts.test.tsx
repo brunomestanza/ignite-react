@@ -14,18 +14,17 @@ describe('Posts page', () => {
 
     expect(screen.getByText('My New Post')).toBeInTheDocument();
   });
+
    it('loads initial data', async () => {
     const getPrismicClientMocked = jest.mocked(getPrismicClient);
-    getPrismicClientMocked.mockResolvedValueOnce({
+    getPrismicClientMocked.mockReturnValueOnce({
       query: jest.fn().mockResolvedValueOnce({
         results: [
           {
             uid: 'my-new-post',
             data: {
-              title: [
-                { type: 'heading', text: 'My new post'}
-              ],
-              content: { type: 'paragraph', text: 'Post excerpt'},
+              title: [{ type: 'heading', text: 'My new post'}],
+              content: [{ type: 'paragraph', text: 'Post excerpt'}],
             },
             last_publication_date: '04-01-2021',
           }
