@@ -1,0 +1,66 @@
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  background-color: var(--gray-700);
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main {
+  width: 600px;
+  word-break: break-all;
+}
+
+.insertContainer {
+  margin-top: -1.875rem;
+  display: flex;
+}
+
+.taskInsert {
+  padding: 1rem;
+  width: 31rem;
+  background-color: var(--gray-500);
+  border: none;
+  border-radius: 5px;
+  color: var(--gray-100);
+}
+
+.taskInsert:focus {
+  outline: transparent;
+  box-shadow: 0 0 0 2px var(--purple-900);
+}
+
+.insertButton {
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: var(--blue-600);
+  color: var(--gray-100);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+  border-width: 0;
+  transition: background-color 0.5s;
+}
+
+.insertButton:hover {
+  background-color: var(--blue-200);
+}
+
+.insertButton svg {
+  color: var(--gray-100);
+  margin-left: 5px;
+}
+
+.statusCounterContainer {
+  margin: 4rem 0 1.5rem 0;
+  display: flex;
+  justify-content: space-between;
+}

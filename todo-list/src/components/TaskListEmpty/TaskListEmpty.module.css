@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  border-top: 1px var(--gray-400) solid;
+  border-radius: 8px;
+  padding-top: 4rem;
+}
+
+.taskEmptyDescription {
+  color: var(--gray-300);
+}
+
+.bold {
+  margin-top: 1rem;
+  font-weight: 700;
+}
