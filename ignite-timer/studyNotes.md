@@ -1,0 +1,3 @@
+# Controlled e Uncontrolled components
+Controlled components são componentes que tem seu estado atualizado juntamente com a alteração do usuário, são úteis para quando queremos a informação em tempo real, porém, podem ter problemas de performance em formulários grandes.
+Uncontrolled components são componentes sem manipulação direta do estado, que podem ter sua validação em por exemplo, um submit no form. São bons para performance, porém perdemos um pouco a manipulação e controle do estado dos componentes.
