@@ -1,7 +1,8 @@
+import { v4 as uuidv4 } from 'uuid'
 import { useTheme } from 'styled-components'
-import { coffeesListGenerator } from '../../utils/coffeesListGenerator'
 import { Benefits } from './Benefits'
 import { CoffeeCard } from './CoffeeCard'
+import { coffeesListGenerator } from '../../utils/coffeesListGenerator'
 import {
   BenefitsContainer,
   HomeContainer,
@@ -60,6 +61,7 @@ export function Home() {
           return (
             <CoffeeCard
               key={coffee.name}
+              id={uuidv4()}
               description={coffee.description}
               name={coffee.name}
               tags={coffee.tags}

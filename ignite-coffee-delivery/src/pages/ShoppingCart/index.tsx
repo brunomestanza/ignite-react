@@ -1,8 +1,10 @@
-import { MapPinLine, CurrencyDollar } from 'phosphor-react'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { Navigate } from 'react-router-dom'
 import { useTheme } from 'styled-components'
+import { MapPinLine, CurrencyDollar } from 'phosphor-react'
 import { PaymentButton } from './components/PaymentButton'
 import { Product } from './components/Product'
+import { PurchaseCartContext } from '../../contexts/PurchaseCartContext'
 import {
   ShoppingCartContainer,
   UserInformationContainer,
@@ -20,7 +22,27 @@ import {
 
 export function ShoppingCart() {
   const [activeButtons, setActiveButtons] = useState([false, false, false])
+  const { cartItems } = useContext(PurchaseCartContext)
   const theme = useTheme()
+
+  if (cartItems.length === 0) {
+    return <Navigate replace to="/" />
+  }
+
+  const deliveryPrice = 3.5
+  const allItemsPrice = cartItems.reduce((previousValue, currentValue) => {
+    if (currentValue.quantityOfCoffes !== undefined) {
+      return previousValue + currentValue.price * currentValue.quantityOfCoffes
+    }
+    return 0 // Dont return 0 NEVER, typescript error
+  }, 0)
+  const formatter = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  })
+  const itemsTotalFormattedPrice = formatter.format(allItemsPrice)
+  const deliveryFormattedPrice = formatter.format(deliveryPrice)
+  const totalFormatPrice = formatter.format(allItemsPrice + deliveryPrice)
 
   function setOnlyOneButtonActive(activeButton: number) {
     const newActiveButtons = [false, false, false]
@@ -82,34 +104,40 @@ export function ShoppingCart() {
           </PaymentButtons>
         </PaymentContainer>
       </UserInformationContainer>
-      <div>
-        <h3>Cafés selecionados</h3>
-        <FinishPurchaseContainer>
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
+      {cartItems.length > 0 && (
+        <div>
+          <h3>Cafés selecionados</h3>
+          <FinishPurchaseContainer>
+            {cartItems.map((cart) => {
+              return (
+                <Product
+                  key={cart.id}
+                  name={cart.name}
+                  price={cart.price}
+                  imgUrl={cart.imgUrl}
+                  quantityOfCoffes={cart.quantityOfCoffes!}
+                />
+              )
+            })}
 
-          <CheckoutContainer>
-            <CheckoutValues>
-              <span>Total de itens</span>
-              <span>R$ 29,70</span>
-            </CheckoutValues>
-            <CheckoutValues>
-              <span>Entrega</span>
-              <span>R$ 3,50</span>
-            </CheckoutValues>
-            <CheckoutTotal>
-              <span>Total</span>
-              <span>R$ 33,20</span>
-            </CheckoutTotal>
-          </CheckoutContainer>
-          <CheckoutButton>CONFIRMAR PEDIDO</CheckoutButton>
-        </FinishPurchaseContainer>
-      </div>
+            <CheckoutContainer>
+              <CheckoutValues>
+                <span>Total de itens</span>
+                <span>{itemsTotalFormattedPrice}</span>
+              </CheckoutValues>
+              <CheckoutValues>
+                <span>Entrega</span>
+                <span>{deliveryFormattedPrice}</span>
+              </CheckoutValues>
+              <CheckoutTotal>
+                <span>Total</span>
+                <span>{totalFormatPrice}</span>
+              </CheckoutTotal>
+            </CheckoutContainer>
+            <CheckoutButton>CONFIRMAR PEDIDO</CheckoutButton>
+          </FinishPurchaseContainer>
+        </div>
+      )}
     </ShoppingCartContainer>
   )
 }

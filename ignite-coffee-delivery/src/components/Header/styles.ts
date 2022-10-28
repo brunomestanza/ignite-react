@@ -44,5 +44,9 @@ export const HeaderActionsContainer = styled.div`
       theme['color-styles'].brand['yellow-light']};
     border: none;
     border-radius: 6px;
+
+    :hover {
+      cursor: pointer;
+    }
   }
 `

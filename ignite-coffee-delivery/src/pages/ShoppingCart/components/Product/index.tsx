@@ -1,4 +1,6 @@
 import { Minus, Plus, Trash } from 'phosphor-react'
+import { useContext } from 'react'
+import { PurchaseCartContext } from '../../../../contexts/PurchaseCartContext'
 import {
   ProductContainer,
   ProductCounter,
@@ -8,29 +10,65 @@ import {
   ProductRemove,
 } from './styles'
 
-export function Product() {
+interface ProductProps {
+  name: string
+  price: number
+  imgUrl: string
+  quantityOfCoffes: number
+}
+
+export function Product({
+  name,
+  price,
+  imgUrl,
+  quantityOfCoffes,
+}: ProductProps) {
+  const { addOrRemoveCoffee, removeItem } = useContext(PurchaseCartContext)
+
+  const formatter = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  })
+  const formattedPrice = formatter.format(price * quantityOfCoffes)
+
+  function handleDecreaseCounter() {
+    if (quantityOfCoffes !== 1) {
+      quantityOfCoffes = quantityOfCoffes - 1
+      addOrRemoveCoffee(name, quantityOfCoffes)
+    }
+  }
+
+  function handleIncreaseCounter() {
+    quantityOfCoffes = quantityOfCoffes + 1
+    addOrRemoveCoffee(name, quantityOfCoffes)
+  }
+
   return (
     <ProductContainer>
-      <img src="./coffees/expresso-tradicional.png" alt="Café" />
+      <img src={imgUrl} alt={name} />
       <ProductInfoContainer>
-        <span>Expresso Tradicional</span>
+        <span>{name}</span>
         <ProductButtonsContainer>
           <ProductCounter>
-            <button>
+            <button type="button" onClick={handleDecreaseCounter}>
               <Minus size={14} weight="bold" />
             </button>
-            <span>1</span>
-            <button>
+            <span>{quantityOfCoffes}</span>
+            <button type="button" onClick={handleIncreaseCounter}>
               <Plus size={14} weight="bold" />
             </button>
           </ProductCounter>
-          <ProductRemove>
+          <ProductRemove
+            onClick={() => {
+              removeItem(name)
+            }}
+          >
             <Trash size={16} weight="bold" />
             REMOVER
           </ProductRemove>
         </ProductButtonsContainer>
       </ProductInfoContainer>
-      <ProductPrice>R$ 9,90</ProductPrice>
+      <ProductPrice>{formattedPrice}</ProductPrice>
     </ProductContainer>
   )
 }
