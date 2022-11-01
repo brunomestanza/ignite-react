@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 interface InputStyleProps {
-  type:
+  variant:
     | 'cep'
     | 'street'
     | 'houseNumber'
@@ -55,7 +55,7 @@ export const AddressContainer = styled(GrayContainer)`
 `
 
 const BaseInput = styled.input<InputStyleProps>`
-  grid-area: ${({ type }) => type};
+  grid-area: ${({ variant }) => variant};
   padding: 0.75rem;
   border: 1px solid ${({ theme }) => theme['color-styles'].base.button};
   background-color: ${({ theme }) => theme['color-styles'].base.input};

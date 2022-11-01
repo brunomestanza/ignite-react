@@ -1,5 +1,8 @@
 import { useState, useContext } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as zod from 'zod'
 import { useTheme } from 'styled-components'
 import { MapPinLine, CurrencyDollar } from 'phosphor-react'
 import { PaymentButton } from './components/PaymentButton'
@@ -20,10 +23,43 @@ import {
   CheckoutButton,
 } from './styles'
 
+const confirmAddressFormValidationSchema = zod.object({
+  cep: zod.string().regex(/^[0-9]{5}-[0-9]{3}$/, 'CEP inválido'),
+  street: zod.string().min(5, 'Endereço muito curto'),
+  houseNumber: zod.string().regex(/\d+/, 'Insira apenas números'),
+  complement: zod.string().optional(),
+  district: zod.string().min(5, 'Insira um bairro'),
+  city: zod.string().min(4, 'Insira uma cidade'),
+  uf: zod.string().min(2, 'Insira uma UF'),
+})
+
+type ConfirmAddressFormData = zod.infer<
+  typeof confirmAddressFormValidationSchema
+>
+
 export function ShoppingCart() {
   const [activeButtons, setActiveButtons] = useState([false, false, false])
   const { cartItems } = useContext(PurchaseCartContext)
+  const navigate = useNavigate()
   const theme = useTheme()
+  const confirmAddressForm = useForm<ConfirmAddressFormData>({
+    resolver: zodResolver(confirmAddressFormValidationSchema),
+    defaultValues: {
+      cep: '',
+      street: '',
+      houseNumber: '',
+      complement: '',
+      district: '',
+      city: '',
+      uf: '',
+    },
+  })
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = confirmAddressForm
 
   if (cartItems.length === 0) {
     return <Navigate replace to="/" />
@@ -51,10 +87,21 @@ export function ShoppingCart() {
     setActiveButtons(newActiveButtons)
   }
 
+  function handleConfirmCoffee() {
+    navigate('/finished-purchase')
+  }
+
   return (
-    <ShoppingCartContainer>
+    <ShoppingCartContainer onSubmit={handleSubmit(handleConfirmCoffee)}>
       <UserInformationContainer>
         <h3>Complete seu pedido</h3>
+        {errors?.cep && <p>{errors.cep.message}</p>}
+        {errors?.street && <p>{errors.street.message}</p>}
+        {errors?.houseNumber && <p>{errors.houseNumber.message}</p>}
+        {errors?.complement && <p>{errors.complement.message}</p>}
+        {errors?.district && <p>{errors.district.message}</p>}
+        {errors?.city && <p>{errors.city.message}</p>}
+        {errors?.uf && <p>{errors.uf.message}</p>}
         <AddressContainer>
           <span>
             <MapPinLine
@@ -65,13 +112,26 @@ export function ShoppingCart() {
           </span>
           <p>Informe o endereço onde deseja receber seu pedido</p>
           <InputsContainer>
-            <Input type="cep" placeholder="CEP" />
-            <Input type="street" placeholder="Rua" />
-            <Input type="houseNumber" placeholder="Número" />
-            <Input type="complement" placeholder="Complemento" />
-            <Input type="district" placeholder="Bairro" />
-            <Input type="city" placeholder="Cidade" />
-            <Input type="uf" placeholder="UF" />
+            <Input variant="cep" placeholder="CEP" {...register('cep')} />
+            <Input variant="street" placeholder="Rua" {...register('street')} />
+            <Input
+              type="number"
+              variant="houseNumber"
+              placeholder="Número"
+              {...register('houseNumber')}
+            />
+            <Input
+              variant="complement"
+              placeholder="Complemento"
+              {...register('complement')}
+            />
+            <Input
+              variant="district"
+              placeholder="Bairro"
+              {...register('district')}
+            />
+            <Input variant="city" placeholder="Cidade" {...register('city')} />
+            <Input variant="uf" placeholder="UF" {...register('uf')} />
           </InputsContainer>
         </AddressContainer>
         <PaymentContainer>
