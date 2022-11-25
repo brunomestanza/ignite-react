@@ -9,7 +9,7 @@ globalStyles() // Colocado aqui porque se ele fica dentro da função app, ele v
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <CartProvider
-      stripe={process.env.STRIPE_SECRET_KEY as string}
+      stripe={process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string}
       cartMode="checkout-session"
       currency="BRL"
       shouldPersist

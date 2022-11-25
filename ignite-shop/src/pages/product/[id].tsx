@@ -53,6 +53,7 @@ export default function Product({ product }: ProductProps) {
         price: product.price,
         currency: 'BRL',
         image: product.imageUrl,
+        price_id: product.defaultPriceId,
       },
       { count: 1 },
     )
