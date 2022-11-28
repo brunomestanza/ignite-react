@@ -15,6 +15,9 @@ import {
 } from './styles'
 import logoImg from '../../assets/logo.svg'
 import { CartItem } from '../CartItem'
+import { useState } from 'react'
+import axios from 'axios'
+import { useRouter } from 'next/router'
 
 interface FormattedData {
   id: string
@@ -22,22 +25,35 @@ interface FormattedData {
   image: string
   formattedPrice: string
   quantity: number
+  priceId: string
 }
 
 export function Header() {
-  const { cartCount, cartDetails, formattedTotalPrice, redirectToCheckout } =
-    useShoppingCart()
+  const { cartCount, cartDetails, formattedTotalPrice } = useShoppingCart()
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
+    useState(false)
+  const { pathname } = useRouter()
+  const isInSuccessPage = pathname === '/success'
   let formattedData: FormattedData[] = []
 
-  async function handleCheckout() {
-    const lineItems = formattedData.map((item) => {
-      return {
-        price: item.id,
-        quantity: item.quantity,
-      }
-    })
+  async function handleBuyButton() {
+    try {
+      setIsCreatingCheckoutSession(true)
+      console.log(formattedData)
 
-    redirectToCheckout(lineItems)
+      const response = await axios.post('/api/checkout', {
+        formattedData,
+      })
+
+      const { checkoutUrl } = response.data
+
+      window.location.href = checkoutUrl
+    } catch (err) {
+      setIsCreatingCheckoutSession(false)
+      console.log(err)
+
+      alert('Falha ao redirecionar ao checkout!')
+    }
   }
 
   if (cartDetails !== undefined) {
@@ -48,20 +64,23 @@ export function Header() {
         image: value.image as string,
         formattedPrice: value.formattedPrice,
         quantity: value.quantity,
+        priceId: value.price_id,
       }
     })
   }
 
   return (
     <Dialog.Root>
-      <HeaderContainer>
+      <HeaderContainer position={isInSuccessPage ? 'center' : 'spaceBetween'}>
         <Link href="/">
           <Image src={logoImg} alt="" />
         </Link>
-        <CartContainer>
-          {cartCount! > 0 && <span>{cartCount}</span>}
-          <Handbag size={48} weight="bold" />
-        </CartContainer>
+        {!isInSuccessPage && (
+          <CartContainer>
+            {cartCount! > 0 && <span>{cartCount}</span>}
+            <Handbag size={48} weight="bold" />
+          </CartContainer>
+        )}
       </HeaderContainer>
 
       <Dialog.Portal>
@@ -95,7 +114,12 @@ export function Header() {
               <p>Valor total</p>
               <strong>{formattedTotalPrice}</strong>
             </div>
-            <button onClick={handleCheckout}>Finalizar compra</button>
+            <button
+              onClick={handleBuyButton}
+              disabled={isCreatingCheckoutSession}
+            >
+              Finalizar compra
+            </button>
           </PurchaseInfo>
         </ModalContent>
       </Dialog.Portal>

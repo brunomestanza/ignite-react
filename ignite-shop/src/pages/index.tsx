@@ -66,10 +66,12 @@ export const getStaticProps: GetStaticProps = async () => {
   const response = await stripe.products.list({
     expand: ['data.default_price'], // Usamos o expand pra podermos ter as informações do produto, que não vem por padrão, em forma de lista
   })
+
   // Fazemos uma formatação da response em products, para enviarmos apenas oque vai ser utilizado
   const products = response.data.map((product) => {
     // Usamos a tipagem do price porque por padrão o stripe envia o ID do price, mas através do expand nós vamos pegar todas as infos do preço
     const price = product.default_price as Stripe.Price // Price se torna o objeto com todas as infos do preço
+    console.log(product)
 
     return {
       id: product.id,
@@ -79,6 +81,7 @@ export const getStaticProps: GetStaticProps = async () => {
         style: 'currency',
         currency: 'BRL',
       }).format((price.unit_amount as number) / 100), // Objeto com todos os dados do preço, pegamos apenas o preço em si, ele vem em centavos, recomendado usar em bancos
+      priceId: price.id,
     }
   })
 

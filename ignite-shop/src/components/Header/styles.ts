@@ -8,7 +8,17 @@ export const HeaderContainer = styled('header', {
   margin: '0 auto',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'space-between',
+
+  variants: {
+    position: {
+      center: {
+        justifyContent: 'center',
+      },
+      spaceBetween: {
+        justifyContent: 'space-between',
+      },
+    },
+  },
 })
 
 export const CartContainer = styled(Dialog.Trigger, {

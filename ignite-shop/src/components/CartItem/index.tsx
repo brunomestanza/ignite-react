@@ -16,8 +16,8 @@ export function CartItem({ image, name, formattedPrice, id }: CartItemProps) {
     <CartItemContainer>
       <Image src={image} alt="" width={100} height={95} />
       <div>
-        <span>{name}</span>
-        <span>{formattedPrice}</span>
+        <p>{name}</p>
+        <strong>{formattedPrice}</strong>
         <button onClick={() => removeItem(id)}>Remover</button>
       </div>
     </CartItemContainer>
