@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.tsx'],
+  darkMode: 'class',
   theme: {
     extend: {
       gridTemplateColumns: {
@@ -12,6 +13,21 @@ module.exports = {
         violet: {
           25: '#fcfaff',
         },
+      },
+      keyframes: {
+        slideDownAndFade: {
+          from: { opacity: 0, transform: 'translateY(-2px)' },
+          top: { opacity: 1, transform: 'translateY(0)' },
+        },
+        // slideUpAndFade: {
+        //   from: { opacity: 1 },
+        //   top: { opacity: 0 },
+        // },
+      },
+      animation: {
+        slideDownAndFade:
+          'slideDownAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1)',
+        // slideUpAndFade: 'slideUpAndFade 1s linear',
       },
     },
   },
